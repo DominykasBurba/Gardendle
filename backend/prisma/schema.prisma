@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  username String
+  email    String @unique
+
+  results UserResult[]
+}
+
+model Item {
+  id       Int    @id @default(autoincrement())
+  name     String
+  category String
+  rarity   String
+
+  imageUrl String?
+
+  dailyPuzzles DailyPuzzle[]
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model DailyPuzzle {
+  id Int @id @default(autoincrement())
+
+  date DateTime
+
+  difficulty Difficulty
+
+  itemId Int
+  item   Item @relation(fields: [itemId], references: [id])
+
+  results UserResult[]
+
+  @@unique([date, difficulty])
+}
+
+model UserResult {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  dailyPuzzleId Int
+  dailyPuzzle   DailyPuzzle @relation(fields: [dailyPuzzleId], references: [id])
+
+  guesses Int
+
+  completedAt DateTime @default(now())
+
+  @@unique([userId, dailyPuzzleId])
+}

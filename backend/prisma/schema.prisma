@@ -21,7 +21,11 @@ model User {
 
   results UserResult[]
 }
-
+enum GridSize {
+  GRID_3X3
+  GRID_4X4
+  GRID_5X5
+}
 model Item {
   id       Int    @id @default(autoincrement())
   name     String
@@ -29,6 +33,9 @@ model Item {
   rarity   String
 
   imageUrl String?
+
+  gridSize GridSize
+  revealOrder Json
 
   dailyPuzzles DailyPuzzle[]
 }
@@ -65,7 +72,7 @@ model UserResult {
 
   guesses Int
 
-  completedAt DateTime @default(now())
+  completedAt DateTime?
 
   @@unique([userId, dailyPuzzleId])
 }

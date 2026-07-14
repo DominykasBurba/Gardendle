@@ -1,0 +1,114 @@
+.classic-page {
+  min-height: 100vh;
+  padding: 18px 24px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
+  color: #f8fafc;
+  background-color: #121213;
+}
+
+.classic-page__header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.classic-page__logo {
+  width: min(540px, 88vw);
+  height: auto;
+  display: block;
+  transform: scale(1);
+  transition: transform 160ms ease;
+}
+
+.classic-page__logo-link {
+  display: inline-block;
+  transform-origin: center;
+}
+
+.classic-page__logo-link:focus-visible {
+  outline: 4px solid #facc15;
+  outline-offset: 6px;
+}
+
+.classic-page__logo-link:hover .classic-page__logo,
+.classic-page__logo-link:focus-visible .classic-page__logo {
+  transform: scale(1.06);
+}
+
+.classic-page__main {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  padding-top: 2px;
+}
+
+.classic-page__game {
+  width: min(380px, 90vw);
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.classic-page__title {
+  margin: 0;
+  font-family: 'Luckiest Guy', 'Fredoka', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3.1rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: center;
+  text-shadow:
+    3px 3px 0 #111827,
+    -1px -1px 0 #111827,
+    1px -1px 0 #111827,
+    -1px 1px 0 #111827;
+}
+
+.classic-page__meta,
+.classic-page__answer {
+  margin: 0;
+  color: #ecfccb;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.classic-page__answer {
+  color: #fef08a;
+}
+
+.classic-page__history {
+  width: 100%;
+  min-height: 94px;
+  padding: 12px;
+  border: 3px solid #111827;
+  background: rgba(17, 24, 39, 0.86);
+}
+
+.classic-page__history-title {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.classic-page__history-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.classic-page__history-empty {
+  margin: 0;
+  color: #bbf7d0;
+}
+
+.classic-page__error {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #fef2f2;
+  background: #1f2937;
+  font-weight: 800;
+}

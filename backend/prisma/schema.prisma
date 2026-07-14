@@ -18,6 +18,7 @@ model User {
 
   username String
   email    String @unique
+  password String
 
   results UserResult[]
 }
@@ -28,14 +29,17 @@ enum GridSize {
 }
 model Item {
   id       Int    @id @default(autoincrement())
+  slug     String @unique
   name     String
   category String
-  rarity   String
+  rarity   String?
+  price    Int?
 
   imageUrl String?
 
+  description String?
+
   gridSize GridSize
-  revealOrder Json
 
   dailyPuzzles DailyPuzzle[]
 }
@@ -52,6 +56,7 @@ model DailyPuzzle {
   date DateTime
 
   difficulty Difficulty
+  revealSeed String
 
   itemId Int
   item   Item @relation(fields: [itemId], references: [id])

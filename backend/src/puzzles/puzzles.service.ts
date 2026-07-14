@@ -14,10 +14,29 @@ export class PuzzlesService {
   }
 
   async getPuzzleToday() {
-    return this.prisma.dailyPuzzle.findFirst({
-        include: {
-            item: true,
-        },
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    const puzzle = await this.prisma.dailyPuzzle.findFirst({
+      where: {
+        date: today,
+      },
+      include: {
+        item: true,
+      },
     });
+
+    if (!puzzle) {
+      return null;
+    }
+
+    return {
+      id: puzzle.id,
+      date: puzzle.date,
+      difficulty: puzzle.difficulty,
+      revealSeed: puzzle.revealSeed,
+      imageUrl: puzzle.item.imageUrl,
+      gridSize: puzzle.item.gridSize,
+    };
   }
 }

@@ -1,0 +1,44 @@
+.guess-form {
+  width: min(380px, 90vw);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.guess-form__input {
+  min-width: 0;
+  height: 48px;
+  padding: 0 14px;
+  border: 3px solid #111827;
+  border-radius: 0;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+  font-weight: 700;
+}
+
+.guess-form__input:focus {
+  outline: 4px solid #facc15;
+  outline-offset: 2px;
+}
+
+.guess-form__button {
+  min-width: 92px;
+  height: 48px;
+  border: 3px solid #111827;
+  background: #facc15;
+  color: #111827;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.guess-form__button:hover {
+  background: #fde047;
+}
+
+.guess-form__button:disabled,
+.guess-form__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}

@@ -9,5 +9,9 @@ export class ItemsController {
   getItems() {
     return this.itemsService.getItems();
   }
+  @Get('names')
+  getItemsNames() {
+    return this.itemsService.getItemNames();
+  }
 }
 

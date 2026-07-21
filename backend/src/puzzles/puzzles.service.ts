@@ -39,4 +39,22 @@ export class PuzzlesService {
       gridSize: puzzle.item.gridSize,
     };
   }
+
+  async submitGuess(itemId: number) {
+    const today = new Date()
+    today.setUTCHours(0, 0, 0, 0);
+
+    const todayPuzzleId = await this.prisma.dailyPuzzle.findFirstOrThrow({
+      where: {
+        date: today,
+      },
+      select: {
+        itemId: true,
+      },
+    })
+
+    if(itemId === todayPuzzleId.itemId) return true
+
+    return false
+  }
 }

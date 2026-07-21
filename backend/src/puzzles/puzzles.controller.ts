@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { PuzzlesService } from './puzzles.service';
 
 @Controller('puzzles')
@@ -12,5 +12,9 @@ export class PuzzlesController {
     @Get('today')
     getPuzzleToday() {
         return this.puzzlesService.getPuzzleToday()
+    }
+    @Post('guess')
+    async submitGuess(@Body('itemId') itemId: number) {
+        return this.puzzlesService.submitGuess(itemId);
     }
 }

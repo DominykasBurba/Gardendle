@@ -9,7 +9,11 @@ body {
   grid-template-rows: auto 1fr;
   justify-items: center;
   color: #f8fafc;
-  background-color: #121213;
+  background-color: #159fda;
+  background-image: url('/WebsiteBackground.webp');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .home-page__header {
@@ -39,60 +43,29 @@ body {
   place-items: center;
 }
 
-.mode-list {
-  width: min(420px, 100%);
-  display: grid;
-  gap: 16px;
-}
-
-.mode-button {
-  width: 100%;
-  min-height: 72px;
-  padding: 14px 22px;
-  border: 3px solid #f8fafc;
-  color: #f8fafc;
-  background: #101010;
-  box-shadow: 6px 6px 0 #163f2b;
+.daily-challenge-button {
+  width: min(380px, 88vw);
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  text-align: left;
-  font: inherit;
   transition:
     transform 140ms ease,
-    box-shadow 140ms ease,
-    background-color 140ms ease;
+    filter 140ms ease;
 }
 
-.mode-button:hover {
-  background: #1c2b22;
-  transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0 #163f2b;
+.daily-challenge-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-4px) scale(1.01);
 }
 
-.mode-button:focus-visible {
+.daily-challenge-button:focus-visible {
   outline: 4px solid #facc15;
-  outline-offset: 4px;
+  outline-offset: 6px;
 }
 
-.mode-button__title,
-.mode-button__description {
+.daily-challenge-button__image {
+  width: 100%;
+  height: auto;
   display: block;
-}
-
-.mode-button__title {
-  font-family: 'Luckiest Guy', 'Fredoka', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 400;
-  color: #ffffff;
-  text-shadow:
-    2px 2px 0 #000000,
-    -1px -1px 0 #000000,
-    1px -1px 0 #000000,
-    -1px 1px 0 #000000;
-}
-
-.mode-button__description {
-  margin-top: 4px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #d9f99d;
 }

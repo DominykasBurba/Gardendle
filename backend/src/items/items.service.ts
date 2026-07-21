@@ -11,10 +11,14 @@ export class ItemsService {
   async getItemNames() {
     const items = await this.prisma.item.findMany({
       select: {
-          name: true,
+        id: true,
+        name: true,
       },
     });
 
-    return items.map(item => item.name)
+    return items.map((item) => ({
+      itemId: item.id,
+      itemName: item.name,
+    }));
   }
 }

@@ -4,10 +4,18 @@ import GuessInput from '../components/GuessInput';
 import PuzzleGrid from '../components/PuzzleGrid';
 import './ClassicModePage.css';
 
+type GuessResult = {
+    name: string;
+    isCorrect: boolean;
+};
+
 function ClassicModePage() {
     const [puzzle, setPuzzle] = useState<DailyPuzzle | null>(null);
     const [error, setError] = useState('');
-    const [guesses, setGuesses] = useState<string[]>([]);
+    const [guesses, setGuesses] = useState<GuessResult[]>([]);
+    const [hasWon, setHasWon] = useState(false);
+    const [showCelebration, setShowCelebration] = useState(false);
+    const [loadedPuzzleId, setLoadedPuzzleId] = useState<number | null>(null);
 
     useEffect(() => {
         getTodayPuzzle()
@@ -15,27 +23,100 @@ function ClassicModePage() {
             .catch((requestError: Error) => setError(requestError.message));
     }, []);
 
+    useEffect(() => {
+        if (!puzzle) {
+            return;
+        }
+
+        const savedGuesses = localStorage.getItem(`photo-grid-guesses:${puzzle.id}`);
+        const savedWin = localStorage.getItem(`photo-grid-won:${puzzle.id}`);
+
+        setHasWon(savedWin === 'true');
+
+        if (!savedGuesses) {
+            setGuesses([]);
+            setLoadedPuzzleId(puzzle.id);
+            return;
+        }
+
+        const storedGuesses = JSON.parse(savedGuesses) as Array<GuessResult | string>;
+        const migratedGuesses = storedGuesses.map((guess, index) =>
+            typeof guess === 'string'
+                ? {
+                    name: guess,
+                    isCorrect: savedWin === 'true' && index === storedGuesses.length - 1,
+                }
+                : guess,
+        );
+
+        setGuesses(migratedGuesses);
+        setLoadedPuzzleId(puzzle.id);
+    }, [puzzle]);
+
+    useEffect(() => {
+        if (!puzzle || loadedPuzzleId !== puzzle.id) {
+            return;
+        }
+
+        localStorage.setItem(`photo-grid-guesses:${puzzle.id}`, JSON.stringify(guesses));
+    }, [guesses, loadedPuzzleId, puzzle]);
+
+    useEffect(() => {
+        if (!puzzle || loadedPuzzleId !== puzzle.id) {
+            return;
+        }
+
+        localStorage.setItem(`photo-grid-won:${puzzle.id}`, String(hasWon));
+    }, [hasWon, loadedPuzzleId, puzzle]);
+
+    useEffect(() => {
+        if (!showCelebration) {
+            return;
+        }
+
+        const timeoutId = window.setTimeout(() => setShowCelebration(false), 4000);
+
+        return () => window.clearTimeout(timeoutId);
+    }, [showCelebration]);
+
     if (error) {
         return <div className="classic-page__error">{error}</div>;
     }
 
     if (!puzzle) {
-        return <div className="classic-page__error">Loading today's puzzle...</div>;
+        return <div className="classic-page__loading">Loading today's puzzle...</div>;
     }
 
     const maxTiles = puzzle.gridSize === 'GRID_3X3' ? 9 : puzzle.gridSize === 'GRID_4X4' ? 16 : 25;
     const revealedTiles = Math.min(guesses.length, maxTiles);
 
-    function handleGuess(guess: string) {
-        if (!puzzle) {
-            return;
-        }
+    function handleGuess(guess: string, isCorrect: boolean) {
 
-        setGuesses((currentGuesses) => [...currentGuesses, guess]);
+        setGuesses((currentGuesses) => [...currentGuesses, { name: guess, isCorrect }]);
+
+        if (isCorrect) {
+            setHasWon(true);
+            setShowCelebration(true);
+        }
     }
 
     return (
         <div className="classic-page">
+            {showCelebration ? (
+                <div aria-hidden="true" className="classic-page__confetti">
+                    {Array.from({ length: 36 }, (_, index) => (
+                        <span
+                            key={index}
+                            style={{
+                                animationDelay: `${(index % 9) * 0.08}s`,
+                                backgroundColor: ['#facc15', '#22c55e', '#ef4444', '#3b82f6', '#f472b6'][index % 5],
+                                left: `${(index * 29) % 100}%`,
+                            }}
+                        />
+                    ))}
+                </div>
+            ) : null}
+
             <header className="classic-page__header">
                 <a className="classic-page__logo-link" href="/" aria-label="Go to homepage">
                     <img className="classic-page__logo" src="/GardenDLE_Logo.png" alt="GardenDLE" />
@@ -44,11 +125,8 @@ function ClassicModePage() {
 
             <main className="classic-page__main">
                 <section className="classic-page__game">
-                    <h1 className="classic-page__title">Photo Grid</h1>
-                    <p className="classic-page__meta">
-                        {puzzle.difficulty} puzzle - {new Date(puzzle.date).toLocaleDateString()}
-                    </p>
-
+                    {/* <h1 className="classic-page__title">Daily challenge</h1> */}
+                    <h2 className="classic-page__description">Guess today’s garden item as the image is revealed one tile at a time.</h2>
                     <PuzzleGrid
                         gridSize={puzzle.gridSize}
                         imageLabel="Daily puzzle item"
@@ -57,21 +135,29 @@ function ClassicModePage() {
                         revealedTiles={revealedTiles}
                     />
 
-                    <GuessInput onGuess={handleGuess} />
+                    <GuessInput
+                        disabled={hasWon}
+                        guessedItems={guesses.map((guess) => guess.name)}
+                        onGuess={handleGuess}
+                    />
+
+                    {hasWon ? (
+                        <p className="classic-page__answer">Correct! You won!</p>
+                    ) : null}
 
                     <div className="classic-page__history">
                         <p className="classic-page__history-title">Guesses</p>
                         {guesses.length > 0 ? (
-                            <ol className="classic-page__history-list">
-                                {guesses
-                                    .slice(-5)
-                                    .reverse()
-                                    .map((guess, index) => (
-                                        <li key={`${guess}-${guesses.length - index}`}>
-                                            {guess}
-                                        </li>
-                                    ))}
-                            </ol>
+                            <div className="classic-page__history-list">
+                                {guesses.map((guess, index) => ({ guess, index })).reverse().map(({ guess, index }) => (
+                                    <div
+                                        className={`classic-page__guess-card classic-page__guess-card--${guess.isCorrect ? 'correct' : 'wrong'}`}
+                                        key={`${guess.name}-${index}`}
+                                    >
+                                        <span>{guess.name}</span>
+                                    </div>
+                                ))}
+                            </div>
                         ) : (
                             <p className="classic-page__history-empty">No guesses yet.</p>
                         )}

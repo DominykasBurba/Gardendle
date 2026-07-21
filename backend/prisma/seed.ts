@@ -79,7 +79,6 @@ async function main() {
     },
   });
 
-  console.log(`Seeded ${seededItems.length} items and today's EASY puzzle.`);
 }
 
 main()

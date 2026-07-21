@@ -5,7 +5,50 @@
   grid-template-rows: auto 1fr;
   justify-items: center;
   color: #f8fafc;
-  background-color: #121213;
+  background-color: #159fda;
+  background-image: url('/WebsiteBackground.webp');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.classic-page__confetti {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.classic-page__confetti span {
+  position: absolute;
+  top: -24px;
+  width: 12px;
+  height: 20px;
+  border-radius: 2px;
+  animation: confetti-fall 2.8s cubic-bezier(0.18, 0.75, 0.35, 1) forwards;
+}
+
+.classic-page__confetti span:nth-child(3n) {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  animation-duration: 3.4s;
+}
+
+.classic-page__confetti span:nth-child(even) {
+  animation-duration: 3.1s;
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(60px, 110vh, 0) rotate(900deg);
+  }
 }
 
 .classic-page__header {
@@ -90,12 +133,51 @@
 .classic-page__history-title {
   margin: 0 0 8px;
   color: #ffffff;
-  font-weight: 800;
+  font-weight: 1000;
+  text-align: center;
 }
 
 .classic-page__history-list {
-  margin: 0;
-  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.classic-page__guess-card {
+  min-height: 52px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #111827;
+  font-weight: 1000;
+  text-align: center;
+  letter-spacing: 0.11em;
+}
+
+.classic-page__guess-card--correct {
+  background: #22a447;
+}
+
+.classic-page__guess-card--wrong {
+  background: #c93434;
+  animation: wrong-guess-pop 420ms ease-out;
+}
+
+@keyframes wrong-guess-pop {
+  0% {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .classic-page__history-empty {
@@ -111,4 +193,36 @@
   color: #fef2f2;
   background: #1f2937;
   font-weight: 800;
+}
+
+.classic-page__loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #ffffff;
+  background-color: #159fda;
+  background-image: url('/WebsiteBackground.webp');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-shadow: 2px 2px 0 #111827;
+}
+.classic-page__description {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .classic-page__confetti {
+    display: none;
+  }
+
+  .classic-page__guess-card--wrong {
+    animation: none;
+  }
 }

@@ -77,6 +77,7 @@ model UserResult {
 
   guesses Int
 
+  startedAt DateTime?
   completedAt DateTime?
 
   @@unique([userId, dailyPuzzleId])

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getTodayPuzzle, type DailyPuzzle } from '../api/puzzles';
 import GuessInput from '../components/GuessInput';
 import PuzzleGrid from '../components/PuzzleGrid';
+import Leaderboard from '../components/Leaderboard';
 import './ClassicModePage.css';
 
 type GuessResult = {
@@ -28,8 +29,9 @@ function ClassicModePage() {
             return;
         }
 
-        const savedGuesses = localStorage.getItem(`photo-grid-guesses:${puzzle.id}`);
-        const savedWin = localStorage.getItem(`photo-grid-won:${puzzle.id}`);
+        const puzzleStorageKey = `${puzzle.id}:${puzzle.date.slice(0, 10)}`;
+        const savedGuesses = localStorage.getItem(`photo-grid-guesses:${puzzleStorageKey}`);
+        const savedWin = localStorage.getItem(`photo-grid-won:${puzzleStorageKey}`);
 
         setHasWon(savedWin === 'true');
 
@@ -58,7 +60,8 @@ function ClassicModePage() {
             return;
         }
 
-        localStorage.setItem(`photo-grid-guesses:${puzzle.id}`, JSON.stringify(guesses));
+        const puzzleStorageKey = `${puzzle.id}:${puzzle.date.slice(0, 10)}`;
+        localStorage.setItem(`photo-grid-guesses:${puzzleStorageKey}`, JSON.stringify(guesses));
     }, [guesses, loadedPuzzleId, puzzle]);
 
     useEffect(() => {
@@ -66,7 +69,8 @@ function ClassicModePage() {
             return;
         }
 
-        localStorage.setItem(`photo-grid-won:${puzzle.id}`, String(hasWon));
+        const puzzleStorageKey = `${puzzle.id}:${puzzle.date.slice(0, 10)}`;
+        localStorage.setItem(`photo-grid-won:${puzzleStorageKey}`, String(hasWon));
     }, [hasWon, loadedPuzzleId, puzzle]);
 
     useEffect(() => {
@@ -119,14 +123,12 @@ function ClassicModePage() {
 
             <header className="classic-page__header">
                 <a className="classic-page__logo-link" href="/" aria-label="Go to homepage">
-                    <img className="classic-page__logo" src="/GardenDLE_Logo.png" alt="GardenDLE" />
+                    <img className="classic-page__logo" src="/Gardendle_Logo.png" alt="GardenDLE" />
                 </a>
             </header>
 
             <main className="classic-page__main">
                 <section className="classic-page__game">
-                    {/* <h1 className="classic-page__title">Daily challenge</h1> */}
-                    <h2 className="classic-page__description">Guess today’s garden item as the image is revealed one tile at a time.</h2>
                     <PuzzleGrid
                         gridSize={puzzle.gridSize}
                         imageLabel="Daily puzzle item"
@@ -141,12 +143,7 @@ function ClassicModePage() {
                         onGuess={handleGuess}
                     />
 
-                    {hasWon ? (
-                        <p className="classic-page__answer">Correct! You won!</p>
-                    ) : null}
-
                     <div className="classic-page__history">
-                        <p className="classic-page__history-title">Guesses</p>
                         {guesses.length > 0 ? (
                             <div className="classic-page__history-list">
                                 {guesses.map((guess, index) => ({ guess, index })).reverse().map(({ guess, index }) => (
@@ -158,11 +155,10 @@ function ClassicModePage() {
                                     </div>
                                 ))}
                             </div>
-                        ) : (
-                            <p className="classic-page__history-empty">No guesses yet.</p>
-                        )}
+                        ) : null}
                     </div>
                 </section>
+                <Leaderboard />
             </main>
         </div>
     );

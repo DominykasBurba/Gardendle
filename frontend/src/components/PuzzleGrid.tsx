@@ -22,7 +22,7 @@ function PuzzleGrid({
     const tileCount = size * size;
     const revealOrder = getRevealOrder(tileCount, revealSeed);
     const visibleTiles = new Set(revealOrder.slice(0, Math.min(revealedTiles, tileCount)));
-    const cellBorder = '1px solid #111827';
+    const cellBorder = '1px solid var(--grid-line-color)';
 
     return (
         <div

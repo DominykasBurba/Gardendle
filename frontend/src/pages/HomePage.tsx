@@ -5,7 +5,7 @@ function HomePage() {
                 <a className="home-page__logo-link" href="/" aria-label="Go to homepage">
                     <img
                         className="home-page__logo"
-                        src="/GardenDLE_Logo.png"
+                        src="/Gardendle_Logo.png"
                         alt="GardenDLE"
                     />
                 </a>
@@ -21,7 +21,7 @@ function HomePage() {
                     <img
                         alt="Daily Challenge — Can you guess today's item?"
                         className="daily-challenge-button__image"
-                        src="/DailyChalange.webp"
+                        src="/DailyChallenge.webp"
                     />
                 </button>
             </main>

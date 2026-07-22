@@ -1,11 +1,16 @@
 .puzzle-grid {
+  --grid-line-color: #3b2618;
+  --hidden-tile-color: #315a36;
   width: min(380px, 90vw);
   aspect-ratio: 1;
   display: grid;
   gap: 0;
   padding: 8px;
-  border: 3px solid #111827;
-  background: #111827;
+  border: 3px solid #3b2618;
+  background: #70451f;
+  box-shadow:
+    0 4px 0 #2a1a10,
+    inset 0 0 0 2px #a66a2c;
 }
 
 .puzzle-grid__tile {
@@ -15,7 +20,7 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  background-color: #2d3f32;
+  background-color: var(--hidden-tile-color);
   background-repeat: no-repeat;
   background-clip: padding-box;
 }
@@ -25,8 +30,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0)),
-    #2d3f32;
+    linear-gradient(135deg, rgba(196, 226, 129, 0.13), rgba(19, 50, 27, 0.2)),
+    var(--hidden-tile-color);
   opacity: 1;
   z-index: 1;
   transition: opacity 180ms ease;
@@ -47,7 +52,8 @@
   content: '?';
   position: relative;
   z-index: 2;
-  color: rgba(255, 255, 255, 0.24);
+  color: #f5d88a;
   font-size: clamp(1rem, 4vw, 2rem);
   font-weight: 700;
+  text-shadow: 1px 2px 0 rgba(59, 38, 24, 0.7);
 }

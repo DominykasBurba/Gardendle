@@ -4,48 +4,65 @@ import { submitGuess } from '../api/puzzles';
 
 import './GuessInput.css';
 
+const MAX_SUGGESTIONS = 8;
+
 type GuessInputProps = {
   disabled?: boolean;
   guessedItems?: string[];
   onGuess: (guess: string, isCorrect: boolean) => void;
 };
 
-function GuessInput({ disabled = false, guessedItems = [], onGuess }: GuessInputProps) {
+function normalizeItemName(itemName: string) {
+  return itemName.trim().toLowerCase();
+}
+
+function GuessInput({
+  disabled = false,
+  guessedItems = [],
+  onGuess,
+}: GuessInputProps) {
   const [guess, setGuess] = useState('');
-  const [itemNames, setItemNames] = useState<ItemOption[]>([]);
+  const [items, setItems] = useState<ItemOption[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const submissionLocked = useRef(false);
 
   useEffect(() => {
     getAllItemNames()
-      .then(setItemNames)
-      .catch(() => setItemNames([]));
+      .then(setItems)
+      .catch((error) => {
+        console.error('Failed to load item names', error);
+        setItems([]);
+      });
   }, []);
 
   const suggestions = useMemo(() => {
-    const normalizedGuess = guess.trim().toLowerCase();
-    const guessedItemSet = new Set(
-      guessedItems.map((itemName) => itemName.trim().toLowerCase()),
-    );
+    const normalizedGuess = normalizeItemName(guess);
 
     if (!normalizedGuess) {
       return [];
     }
 
-    return itemNames
+    const guessedItemSet = new Set(guessedItems.map(normalizeItemName));
+
+    return items
       .filter((item) => {
-        const normalizedItemName = item.itemName.toLowerCase();
+        const normalizedItemName = normalizeItemName(item.itemName);
 
         return (
           normalizedItemName.includes(normalizedGuess) &&
           !guessedItemSet.has(normalizedItemName)
         );
       })
-      .slice(0, 8);
-  }, [guess, guessedItems, itemNames]);
+      .slice(0, MAX_SUGGESTIONS);
+  }, [guess, guessedItems, items]);
 
-  const shouldShowSuggestions = isFocused && suggestions.length > 0 && !disabled && !isSubmitting;
+  const shouldShowSuggestions =
+    isFocused &&
+    suggestions.length > 0 &&
+    !disabled &&
+    !isSubmitting;
 
   async function submitItem(item: ItemOption) {
     if (submissionLocked.current) {
@@ -61,14 +78,14 @@ function GuessInput({ disabled = false, guessedItems = [], onGuess }: GuessInput
       onGuess(item.itemName, isCorrect);
       setGuess('');
     } catch (error) {
-      console.error("Failed to submit", error)
+      console.error('Failed to submit guess', error);
     } finally {
       submissionLocked.current = false;
       setIsSubmitting(false);
     }
-
   }
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+
+  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const firstSuggestion = suggestions[0];
@@ -77,15 +94,19 @@ function GuessInput({ disabled = false, guessedItems = [], onGuess }: GuessInput
       return;
     }
 
-    void submitItem(firstSuggestion)
+    void submitItem(firstSuggestion);
   }
 
-  function submitSuggestion(item: ItemOption) {
-    void submitItem(item)
+  function handleSuggestionMouseDown(
+    event: React.MouseEvent<HTMLButtonElement>,
+    item: ItemOption,
+  ) {
+    event.preventDefault();
+    void submitItem(item);
   }
 
   return (
-    <form className="guess-form" onSubmit={handleSubmit}>
+    <form className="guess-form" onSubmit={handleFormSubmit}>
       <div className="guess-form__field">
         <input
           className="guess-form__input"
@@ -105,10 +126,9 @@ function GuessInput({ disabled = false, guessedItems = [], onGuess }: GuessInput
               <button
                 className="guess-form__suggestion"
                 key={item.itemId}
-                onMouseDown={(event) => {
-                  event.preventDefault();
-                  submitSuggestion(item);
-                }}
+                onMouseDown={(event) =>
+                  handleSuggestionMouseDown(event, item)
+                }
                 type="button"
               >
                 {item.itemName}
@@ -118,7 +138,11 @@ function GuessInput({ disabled = false, guessedItems = [], onGuess }: GuessInput
         ) : null}
       </div>
 
-      <button className="guess-form__button" disabled={disabled || isSubmitting || suggestions.length === 0} type="submit">
+      <button
+        className="guess-form__button"
+        disabled={disabled || isSubmitting || suggestions.length === 0}
+        type="submit"
+      >
         {isSubmitting ? 'Checking...' : 'Guess'}
       </button>
     </form>

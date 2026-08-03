@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthInputDTO } from './dto/auth-input.dto'
 import { AuthGuard } from './guards/auth.guard';
 import { RegisterDTO } from './dto/register-input.dto';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +15,7 @@ export class AuthController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @UseGuards(ThrottlerGuard)
     @Post('login')
     login(@Body() loginDto: AuthInputDTO) {
         return this.authService.authenticateUser(loginDto);

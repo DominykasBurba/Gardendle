@@ -58,7 +58,7 @@ function HomePage() {
                 <a className="home-page__logo-link" href="/" aria-label="Go to homepage">
                     <img
                         className="home-page__logo"
-                        src="/Gardendle_Logo.png"
+                        src="/GardenDLE_Logo.png"
                         alt="GardenDLE"
                     />
                 </a>

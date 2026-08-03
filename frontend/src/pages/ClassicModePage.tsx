@@ -243,7 +243,7 @@ function ClassicModePage() {
 
             <header className="classic-page__header">
                 <a className="classic-page__logo-link" href="/" aria-label="Go to homepage">
-                    <img className="classic-page__logo" src="/Gardendle_Logo.png" alt="GardenDLE" />
+                    <img className="classic-page__logo" src="/GardenDLE_Logo.png" alt="GardenDLE" />
                 </a>
             </header>
 

@@ -38,7 +38,7 @@ function CompletionModal({ onClose }: CompletionModalProps) {
         <img
           alt="GardenDLE"
           className="completion-modal__logo"
-          src="/Gardendle_Logo.png"
+          src="/GardenDLE_Logo.png"
         />
 
         <h2 className="completion-modal__title" id="completion-modal-title">

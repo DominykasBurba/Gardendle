@@ -99,7 +99,7 @@ function SignInModal({ message, onAuthenticated, onClose }: SignInModalProps) {
         <img
           alt="GardenDLE"
           className="sing_in_page_logo"
-          src="/Gardendle_Logo.png"
+          src="/GardenDLE_Logo.png"
         />
 
         {message ? <p className="sign-in-modal__message">{message}</p> : null}

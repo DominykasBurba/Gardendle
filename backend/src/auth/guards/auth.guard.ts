@@ -18,10 +18,15 @@ export class AuthGuard implements CanActivate{
 
         try {
             const tokenPayload = await this.jwtService.verifyAsync(token);
+
+            if(tokenPayload.kind !== 'access-token' || typeof tokenPayload.sub !== 'number' || typeof tokenPayload.username !== 'string') { 
+                throw new UnauthorizedException();
+            }
             request.user = {
                 userId: tokenPayload.sub,
                 username: tokenPayload.username,
             }
+
             return true;
         } catch (error) {
             throw new UnauthorizedException();

@@ -48,6 +48,7 @@ export class AuthService {
 
     async signIn(user: SingInDataDTO): Promise<AuthResultDTO> {
         const tokenPayload = {
+            kind: 'access-token',
             sub: user.userId,
             username: user.username,
         };

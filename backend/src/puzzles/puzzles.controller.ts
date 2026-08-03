@@ -6,10 +6,6 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 export class PuzzlesController {
     constructor(private readonly puzzlesService : PuzzlesService) {}
 
-    @Get()
-    getPuzzles() {
-        return this.puzzlesService.getPuzzles();
-    }
     @Get('today')
     getPuzzleToday() {
         return this.puzzlesService.getPuzzleToday()

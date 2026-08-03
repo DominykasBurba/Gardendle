@@ -46,14 +46,6 @@ export class PuzzlesService {
     }
   }
 
-  async getPuzzles() {
-    return this.prisma.dailyPuzzle.findMany({
-        include: {
-            item: true,
-        },
-    });
-  }
-
   async getPuzzleToday() {
     const puzzle = await this.prisma.dailyPuzzle.findFirst({
       where: {

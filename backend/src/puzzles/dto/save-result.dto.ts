@@ -1,8 +1,9 @@
-import {IsString, IsNotEmpty} from "class-validator";
+import {IsString, IsNotEmpty, IsOptional} from "class-validator";
 
 
 export class SaveResultDTO {
     @IsString()
     @IsNotEmpty()
+    @IsOptional()
     attemptToken!: string;
 }

@@ -1,4 +1,4 @@
-import {IsInt, IsNotEmpty, IsString} from "class-validator";
+import {IsInt, IsNotEmpty, IsString, IsOptional} from "class-validator";
 
 export class SubmitGuessDTO {
     @IsInt()
@@ -6,5 +6,6 @@ export class SubmitGuessDTO {
 
     @IsString()
     @IsNotEmpty()
+    @IsOptional()
     attemptToken?: string;
 }

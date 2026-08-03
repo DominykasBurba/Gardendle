@@ -1,0 +1,193 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    padding: 20px;
+    background: rgba(20, 35, 27, 0.68);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal {
+    position: relative;
+    width: min(344px, 100%);
+    padding: 24px 27px 27px;
+    border: 4px solid #3b2618;
+    border-radius: 8px;
+    color: #2d2115;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(166, 106, 44, 0.1)),
+        #f6dfac;
+    box-shadow:
+        0 8px 0 #2a1a10,
+        0 18px 45px rgba(20, 15, 8, 0.38),
+        inset 0 0 0 3px #a66a2c;
+}
+
+.sing_in_page_logo {
+    display: block;
+    width: min(230px, 72%);
+    height: auto;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.sign-in-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 2px solid #3b2618;
+    border-radius: 4px;
+    color: #f6dfac;
+    background: #8f3f32;
+    cursor: pointer;
+    font-size: 1.45rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.sign-in-modal__title {
+    margin: 12px 0 22px;
+    color: #a65a20;
+    font-size: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.sign-in-modal__form {
+    display: grid;
+    gap: 16px;
+}
+
+.sign-in-modal__message {
+    margin: 10px 0 16px;
+    color: #70451f;
+    font-weight: 800;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.sign-in-modal__field {
+    display: grid;
+    gap: 6px;
+    font-weight: 800;
+}
+
+.sign-in-modal__field input {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 3px solid #70451f;
+    border-radius: 4px;
+    color: #2d2115;
+    background: #fff8e6;
+    font: inherit;
+    outline: none;
+}
+
+.sign-in-modal__field input:focus {
+    border-color: #315a36;
+    box-shadow: 0 0 0 3px rgba(49, 90, 54, 0.22);
+}
+
+.sign-in-modal__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.sign-in-modal__error {
+    margin: -4px 0 0;
+    padding: 9px 11px;
+    border: 2px solid #8f3f32;
+    border-radius: 4px;
+    color: #7f1d1d;
+    background: rgba(255, 238, 224, 0.8);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sign-in-modal__button {
+    min-height: 46px;
+    padding: 10px 14px;
+    border: 3px solid #3b2618;
+    border-radius: 4px;
+    color: #f6dfac;
+    background: #315a36;
+    box-shadow: 0 3px 0 #2a1a10;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 900;
+    text-transform: uppercase;
+    transition: filter 140ms ease, transform 140ms ease;
+}
+
+.sign-in-modal__button--secondary {
+    color: #2d2115;
+    background: #e5a33b;
+}
+
+.sign-in-modal__button:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.4);
+    opacity: 0.7;
+}
+
+.sign-in-modal__button:hover,
+.sign-in-modal__close:hover {
+    filter: brightness(1.12);
+}
+
+.sign-in-modal__button:hover {
+    transform: translateY(-2px);
+}
+
+.sign-in-modal__button:focus-visible,
+.sign-in-modal__close:focus-visible {
+    outline: 3px solid #facc15;
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .modal-overlay {
+        align-items: safe center;
+        padding: 12px;
+    }
+
+    .modal {
+        width: 100%;
+        padding: 24px 18px 20px;
+    }
+
+    .sing_in_page_logo {
+        width: min(190px, 65%);
+        padding-bottom: 1.2rem;
+    }
+
+    .sign-in-modal__form {
+        gap: 12px;
+    }
+
+    .sign-in-modal__actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-height: 620px) {
+    .modal-overlay {
+        align-items: flex-start;
+    }
+
+    .sing_in_page_logo {
+        width: 150px;
+        padding-bottom: 0.75rem;
+    }
+}

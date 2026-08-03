@@ -69,6 +69,8 @@ model DailyPuzzle {
 model UserResult {
   id Int @id @default(autoincrement())
 
+  attemptId String? @unique
+
   userId Int
   user   User @relation(fields: [userId], references: [id])
 

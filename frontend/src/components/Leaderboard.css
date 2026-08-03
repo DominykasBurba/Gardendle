@@ -43,6 +43,16 @@
   font-weight: 700;
 }
 
+.leaderboard__table td,
+.leaderboard__table th {
+  overflow-wrap: anywhere;
+}
+
+.leaderboard__table td[colspan] {
+  padding: 12px 6px;
+  text-align: center;
+}
+
 .leaderboard__table th:first-child,
 .leaderboard__table td:first-child {
   width: 5%;
@@ -62,4 +72,49 @@
 .leaderboard__table th:nth-child(4),
 .leaderboard__table td:nth-child(4) {
   width: 20%;
+}
+
+@media (max-width: 700px) {
+  .leaderboard {
+    min-height: 280px;
+    padding: 5% 7% 6%;
+  }
+
+  .leaderboard__title {
+    margin-bottom: 1%;
+    font-size: clamp(0.8rem, 4vw, 1.1rem);
+    line-height: 1.1;
+  }
+
+  .leaderboard__table {
+    font-size: clamp(0.58rem, 2.7vw, 0.85rem);
+  }
+
+  .leaderboard__table th {
+    padding: 5px 2px;
+  }
+
+  .leaderboard__table td {
+    padding: 2px;
+  }
+
+  .leaderboard__table th:first-child,
+  .leaderboard__table td:first-child {
+    width: 8%;
+  }
+
+  .leaderboard__table th:nth-child(2),
+  .leaderboard__table td:nth-child(2) {
+    width: 44%;
+  }
+
+  .leaderboard__table th:nth-child(3),
+  .leaderboard__table td:nth-child(3) {
+    width: 27%;
+  }
+
+  .leaderboard__table th:nth-child(4),
+  .leaderboard__table td:nth-child(4) {
+    width: 21%;
+  }
 }

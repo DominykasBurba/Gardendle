@@ -13,6 +13,14 @@
     inset 0 0 0 2px #a66a2c;
 }
 
+@media (max-width: 600px) {
+  .puzzle-grid {
+    width: min(340px, 86vw);
+    padding: 5px;
+    border-width: 2px;
+  }
+}
+
 .puzzle-grid__tile {
   position: relative;
   width: 100%;

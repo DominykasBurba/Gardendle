@@ -7,9 +7,10 @@ import './GuessInput.css';
 const MAX_SUGGESTIONS = 8;
 
 type GuessInputProps = {
+  attemptToken?: string | null;
   disabled?: boolean;
   guessedItems?: string[];
-  onGuess: (guess: string, isCorrect: boolean) => void;
+  onGuess: (guess: string, isCorrect: boolean, attemptToken: string) => void;
 };
 
 function normalizeItemName(itemName: string) {
@@ -17,6 +18,7 @@ function normalizeItemName(itemName: string) {
 }
 
 function GuessInput({
+  attemptToken,
   disabled = false,
   guessedItems = [],
   onGuess,
@@ -73,9 +75,9 @@ function GuessInput({
     setIsSubmitting(true);
 
     try {
-      const isCorrect = await submitGuess(item.itemId);
+      const result = await submitGuess(item.itemId, attemptToken);
 
-      onGuess(item.itemName, isCorrect);
+      onGuess(item.itemName, result.isCorrect, result.attemptToken);
       setGuess('');
     } catch (error) {
       console.error('Failed to submit guess', error);

@@ -27,14 +27,16 @@ export class AuthService {
 
 
     async validateUser(input: AuthInputDTO) : Promise<SingInDataDTO | null> {
-        const user = await this.usersService.findUserByName(input.username)
+        const user = input.username.includes('@')
+            ? await this.usersService.findUserByEmail(input.username)
+            : await this.usersService.findUserByName(input.username)
 
         if(!user) {
             return null
         }
         const passwordMatches = await argon2.verify(user.password, input.password)
 
-        if(user && passwordMatches) {
+        if(passwordMatches) {
             return {
                 userId: user.id,
                 username: user.username

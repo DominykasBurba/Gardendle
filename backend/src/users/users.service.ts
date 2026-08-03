@@ -49,7 +49,9 @@ export class UsersService {
             },
             select: {
                 id: true,
+                username: true,
                 email: true,
+                password: true,
             },
         });
     }

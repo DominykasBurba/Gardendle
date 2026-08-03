@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { PuzzlesService } from './puzzles.service';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { SubmitGuessDTO } from './dto/submit-guess.dto';
+import { SaveResultDTO } from './dto/save-result.dto';
 
 @Controller('puzzles')
 export class PuzzlesController {
@@ -11,11 +13,8 @@ export class PuzzlesController {
         return this.puzzlesService.getPuzzleToday()
     }
     @Post('guess')
-    async submitGuess(
-        @Body('itemId') itemId: number,
-        @Body('attemptToken') attemptToken?: string,
-    ) {
-        return this.puzzlesService.submitGuess(itemId, attemptToken);
+    async submitGuess(@Body() submitGuessDTO: SubmitGuessDTO) {
+        return this.puzzlesService.submitGuess(submitGuessDTO.itemId, submitGuessDTO.attemptToken);
     }
 
     @Get('leaderboard/today')
@@ -25,7 +24,7 @@ export class PuzzlesController {
 
     @UseGuards(AuthGuard)
     @Post('result')
-    saveResult(@Request() request, @Body('attemptToken') attemptToken: string) {
-        return this.puzzlesService.saveResult(request.user.userId, attemptToken);
+    saveResult(@Request() request, @Body() saveResultDTO: SaveResultDTO) {
+        return this.puzzlesService.saveResult(request.user.userId, saveResultDTO.attemptToken);
     }
 }

@@ -1,14 +1,21 @@
 import HomePage from './pages/HomePage';
 import ClassicModePage from './pages/ClassicModePage';
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 
 function App() {
-  if (window.location.pathname === '/classic') {
-    return <ClassicModePage />;
-  }
+  const page =
+    window.location.pathname === '/classic' ? (
+      <ClassicModePage />
+    ) : (
+      <HomePage />
+    );
 
   return (
-    <HomePage />
+    <>
+      {page}
+      <Analytics />
+    </>
   );
 }
 

@@ -194,6 +194,15 @@ function ClassicModePage() {
         }
     }
 
+    function handleSignInClose() {
+        setShowSignIn(false);
+
+        if (scoreNeedsAuthentication && shouldShareAfterSave) {
+            setShowShareModal(true);
+            setShouldShareAfterSave(false);
+        }
+    }
+
     return (
         <div className="classic-page">
             {isLoggedIn === false ? (
@@ -218,7 +227,7 @@ function ClassicModePage() {
                         ? 'You solved today’s puzzle! Log in or register to save your score.'
                         : undefined}
                     onAuthenticated={() => setIsLoggedIn(true)}
-                    onClose={() => setShowSignIn(false)}
+                    onClose={handleSignInClose}
                 />
             ) : null}
 
